@@ -21,38 +21,38 @@ function solutionB(str) {
     return;
   }
 
-  const [n, m, a] = str.trim().split(" ").map(Number);
+  const [n, m, a] = str.trim().split(" ").map(num => Number(num));
   const numStones = Math.ceil(n / a) * Math.ceil(m / a);
   return numStones.toString();
 }
 
 
-function tong(n){
-  let s = 0
-  for(let i = 1 ; i <=n ; i++){
-    s +=i
-  }
-  return s
-}
+// function tong(n){
+//   let s = 0
+//   for(let i = 1 ; i <=n ; i++){
+//     s +=i
+//   }
+//   return s
+// }
 // s = k *(1+2+3+...+n)
 // k * n+1*n/2
 function solutionC(str) {
   if (typeof str !== "string") {
     return;
   }
-  const [n, k] = str.trim().split(" ").map(Number);
+  const [n, k] = str.trim().split(" ").map(num => Number(num));
   const s = (k * n * (n + 1)) / 2;
   return s.toString();
 }
 
-let username = "tranhongankrn.2001@gmail.com";
-async function register() {
+
+async function register(userName) {
   try {
     let password = ''
     const { data } = await axios.post(
       "https://fresher-program.woay.xyz/user/register",
       {
-        email: username,
+        email: userName,
       }
     );
     password = data.password;
@@ -62,13 +62,13 @@ async function register() {
     throw Error(error)
   }
 }
-async function login(password) {
+async function login(userName ,password ) {
   try {
     let token = ''
     const { data } = await axios.post(
       "https://fresher-program.woay.xyz/user/login",
       {
-        email: username,
+        email: userName,
         password: password,
       }
     );
@@ -143,8 +143,9 @@ async function submit(submitkey, solution , token) {
 }
 
 async function main() {
-  const pass =   await register();
-  const token =   await login(pass);
+  let username = "tranhongankrn.2001@gmail.com";
+  const pass =   await register(username);
+  const token =   await login(username,pass);
   await getTestcase("A" , token);
   await  getTestcase('B' , token)
   await  getTestcase('C' , token)
